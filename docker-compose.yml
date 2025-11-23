@@ -1,0 +1,35 @@
+version: '3.3'
+
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=ist_procurement
+      - POSTGRES_USER=ist_user
+      - POSTGRES_PASSWORD=ist_password
+    # ports:
+    #   - "5433:5432"
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8001
+    volumes:
+      - .:/app
+    ports:
+      - "8001:8001"
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=foo
+      - DATABASE_URL=postgres://ist_user:ist_password@db:5432/ist_procurement
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD", "nc", "-z", "db", "5432"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

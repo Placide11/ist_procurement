@@ -5,6 +5,7 @@ from django.db import transaction
 from .models import PurchaseRequest
 from .serializers import PurchaseRequestSerializer
 from .ai_utils import extract_data_from_proforma
+from .po_utils import generate_po_pdf
 
 class PurchaseRequestViewSet(viewsets.ModelViewSet):
     serializer_class = PurchaseRequestSerializer
@@ -52,10 +53,14 @@ class PurchaseRequestViewSet(viewsets.ModelViewSet):
                 purchase_request.status = 'APPROVED_L2'
                 purchase_request.approver_l2 = user
                 
-                # TODO: TRIGGER AI PO GENERATION HERE LATER
+                try:
+                    pdf_path = generate_po_pdf(purchase_request)
+                    purchase_request.purchase_order_file = pdf_path
+                except Exception as e:
+                    print(f"Error generating PO: {e}")
                 
                 purchase_request.save()
-                return Response({'status': 'Approved by Director (L2)'})
+                return Response({'status': 'Approved by Director (L2) - PO Generated'})
 
             else:
                 return Response(

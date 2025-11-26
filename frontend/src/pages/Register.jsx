@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box, Alert, Link } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import api from '../api';
 
 export default function Register() {
@@ -38,7 +38,7 @@ export default function Register() {
                     <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                         Sign Up
                     </Button>
-                    <Link href="/login" variant="body2">
+                    <Link component={RouterLink} to="/login" variant="body2">
                         {"Already have an account? Sign In"}
                     </Link>
                 </Box>

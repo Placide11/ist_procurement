@@ -64,7 +64,7 @@ export default function Dashboard() {
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
-                            <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
+                            <TableRow sx={{ backgroundColor: '#070570ff' }}>
                                 <TableCell><strong>ID</strong></TableCell>
                                 <TableCell><strong>Title</strong></TableCell>
                                 <TableCell><strong>Amount</strong></TableCell>

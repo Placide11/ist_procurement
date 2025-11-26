@@ -6,6 +6,8 @@ from .models import PurchaseRequest
 from .serializers import PurchaseRequestSerializer
 from .ai_utils import extract_data_from_proforma
 from .po_utils import generate_po_pdf
+from django.contrib.auth.models import User
+from rest_framework.views import APIView
 
 class PurchaseRequestViewSet(viewsets.ModelViewSet):
     serializer_class = PurchaseRequestSerializer
@@ -81,3 +83,18 @@ class PurchaseRequestViewSet(viewsets.ModelViewSet):
             purchase_request.rejection_reason = reason
             purchase_request.save()
             return Response({'status': 'Rejected'})
+
+class RegisterUserView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        if not username or not password:
+            return Response({'error': 'Username and Password required'}, status=400)
+        
+        try:
+            User.objects.create_user(username=username, password=password)
+            return Response({'status': 'User created'})
+        except Exception as e:
+            return Response({'error': str(e)}, status=400)

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
+import { Link } from '@mui/material';
 
 export default function Login() {
     const [username, setUsername] = useState('');
@@ -52,6 +53,9 @@ export default function Login() {
                     <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                         Sign In
                     </Button>
+                    <Link href="/register" variant="body2">
+                        Don't have an account? Sign Up
+                    </Link>
                 </Box>
             </Box>
         </Container>

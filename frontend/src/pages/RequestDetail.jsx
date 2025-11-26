@@ -34,6 +34,19 @@ export default function RequestDetail() {
         }
     };
 
+    const handleReject = async () => {
+        const reason = prompt("Please enter the reason for rejection:");
+        if (!reason) return;
+
+        try {
+            await api.patch(`/requests/${id}/reject/`, { reason });
+            const response = await api.get(`/requests/${id}/`);
+            setRequest(response.data);
+        } catch (err) {
+            alert("Failed to reject request");
+        }
+    };
+
     if (loading) return <Container sx={{mt:5}}><CircularProgress /></Container>;
     if (error) return <Container sx={{mt:5}}><Alert severity="error">{error}</Alert></Container>;
     if (!request) return null;
@@ -69,7 +82,7 @@ export default function RequestDetail() {
                     </Grid>
                 </Grid>
 
-                <Box sx={{ mt: 4, p: 2, bgcolor: '#f8f9fa', borderRadius: 2 }}>
+                <Box sx={{ mt: 4, p: 2, bgcolor: '#033f7aff', borderRadius: 2 }}>
                     <Typography variant="subtitle1" fontWeight="bold">AI Extracted Data</Typography>
                     {request.extracted_data ? (
                         <pre style={{ overflowX: 'auto' }}>
@@ -103,6 +116,12 @@ export default function RequestDetail() {
                             target="_blank"
                         >
                             Download Purchase Order
+                        </Button>
+                    )}
+
+                    {(request.status === 'PENDING' || request.status === 'APPROVED_L1') && (
+                        <Button variant="outlined" color="error" onClick={handleReject}>
+                            Reject
                         </Button>
                     )}
 

@@ -371,26 +371,6 @@ curl -X POST http://127.0.0.1:8001/api/requests/ \
 - `Dockerfile` & `docker-compose.yml` — container definitions
 
 ---
-
-## 🧪 Testing
-
-Run tests locally in the Django container or locally if using the Python environment:
-
-```bash
-docker-compose exec web python manage.py test
-```
-
-Or locally (after activating virtual env):
-
-```bash
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1  # Windows PowerShell
-pip install -r requirements.txt
-python manage.py test
-```
-
----
-
 ## 👥 Contributing
 
 Contributions welcome! Suggested workflow:
@@ -420,11 +400,5 @@ Guidelines:
 - Add a comprehensive OpenAPI/Swagger documentation (e.g., `drf-spectacular`).
 - Optional: Convert to a production-ready deployment (Gunicorn/ASGI server, storage for media files, and secure secrets management).
 - Improve the AI extraction to better parse line items and totals, add automated tests around AI helpers.
-
----
-
-## 📞 Contact
-
-Developer: Placide
 
 ---
